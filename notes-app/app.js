@@ -1,5 +1,6 @@
 import yargs from "yargs"
 import {hideBin} from 'yargs/helpers'
+import {addNote, removeNote} from "./notes.js";
 
 const ya = yargs(hideBin(process.argv)).command({
     command: 'add',
@@ -17,14 +18,20 @@ const ya = yargs(hideBin(process.argv)).command({
         }
     },
     handler: function (argv)  {
-        console.log('title: ' + argv.title)
-        console.log('body: ' + argv.body)
+      addNote(argv.title, argv.body)
     }
 }).command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function () {
-        console.log('R notes')
+    builder:{
+        title: {
+           disable: 'Note title',
+            demandOption: true,
+            type: "string"
+}
+    },
+    handler: function (argv) {
+        removeNote(argv.title)
     }
 }).command({
     command: 'list',
