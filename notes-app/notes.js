@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import chalk from "chalk";
 
 export  function getNotes (){
     return 'your notes...'
@@ -38,6 +39,14 @@ const loadNotes = function (){
 }
 
 export function removeNote(title){
-    console.log(`Remove ${title}`);
+    const notes = loadNotes()
+    const notesToKeep = notes.filter((note)=>{
+      return   note.title !== title
+    })
+    if(notes.length > notesToKeep.length) {
+        console.log(chalk.green.inverse(`Removed ${title}`))
+        saveNotes(notesToKeep)
+    }
+    else console.log(chalk.red.inverse('no note found'))
 }
   // module.exports = getNotes
