@@ -1,6 +1,6 @@
 import yargs from "yargs"
 import {hideBin} from 'yargs/helpers'
-import {addNote, removeNote} from "./notes.js";
+import {addNote, listNote, readNote, removeNote} from "./notes.js";
 
 const ya = yargs(hideBin(process.argv)).command({
     command: 'add',
@@ -17,7 +17,7 @@ const ya = yargs(hideBin(process.argv)).command({
             type: 'string'
         }
     },
-    handler: function (argv) {
+    handler(argv) {
         addNote(argv.title, argv.body)
     }
 }).command({
@@ -30,20 +30,27 @@ const ya = yargs(hideBin(process.argv)).command({
             type: "string"
         }
     },
-    handler: function (argv) {
+    handler (argv) {
         removeNote(argv.title)
     }
 }).command({
     command: 'list',
     describe: 'Add a new list',
-    handler: function () {
-        console.log('Adding list')
+    handler (argv) {
+        listNote(argv)
     }
 }).command({
     command: 'read',
     describe: 'Read a note',
-    handler: function () {
-        console.log('Reading notes')
+    builder: {
+        title: {
+            disable: 'Note title',
+            demandOption: true,
+            type: "string"
+        }
+    },
+    handler (argv) {
+        readNote(argv.title)
     }
 })
 // const remove = yargs(hideBin(process.argv)).command({
